@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { apiLogin } from "../lib/api/client";
 import { isApiMode } from "../lib/api/config";
 import { clearApiStaff, setApiUser } from "../lib/api/session";
@@ -10,8 +10,9 @@ import styles from "./LoginPage.module.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const apiMode = isApiMode();
-  const [schoolSlug, setSchoolSlug] = useState(apiMode ? "riverside-ap" : "");
+  const [schoolSlug, setSchoolSlug] = useState(searchParams.get("school") ?? "");
   const [username, setUsername] = useState("");
   const [pin, setPin] = useState("");
   const [error, setError] = useState("");
@@ -93,6 +94,11 @@ export default function LoginPage() {
   return (
     <div className={styles.page}>
       <h1 className={styles.title}>Steps</h1>
+      <p className={styles.sub}>
+        {apiMode
+          ? "Use your school code and the username from registration."
+          : "Sign in with your username and PIN."}
+      </p>
       <form className={styles.card} onSubmit={handleSubmit}>
         {apiMode ? (
           <>
@@ -102,7 +108,7 @@ export default function LoginPage() {
               value={schoolSlug}
               onChange={(e) => setSchoolSlug(e.target.value)}
               autoCapitalize="none"
-              placeholder="e.g. riverside-ap"
+              placeholder="From your school link"
             />
           </>
         ) : null}
@@ -128,23 +134,10 @@ export default function LoginPage() {
         </button>
       </form>
       <p className={styles.links}>
-        <Link to="/register">Create account</Link>
+        <Link to="/register">Register</Link>
         <span> · </span>
         <Link to="/staff-login">Teacher sign in</Link>
       </p>
-      <details className={styles.demo}>
-        <summary>{apiMode ? "Trust pilot logins" : "Demo logins"}</summary>
-        {apiMode ? (
-          <p>
-            riverside-ap · alex / 4821
-            <br />
-            oakfield · sam / 4821
-          </p>
-        ) : (
-          <p>alex / 4821 · jordan / 7392</p>
-        )}
-      </details>
     </div>
   );
 }
-

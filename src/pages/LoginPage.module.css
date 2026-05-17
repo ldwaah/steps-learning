@@ -8,9 +8,15 @@
 }
 
 .title {
-  margin: 0 0 1rem;
+  margin: 0 0 0.35rem;
   font-size: 1.5rem;
   font-weight: 600;
+}
+
+.sub {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
 }
 
 .card {

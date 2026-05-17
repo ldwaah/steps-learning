@@ -9,7 +9,7 @@ import styles from "./LoginPage.module.css";
 export default function StaffLoginPage() {
   const navigate = useNavigate();
   const apiMode = isApiMode();
-  const [schoolSlug, setSchoolSlug] = useState(apiMode ? "riverside-ap" : "");
+  const [schoolSlug, setSchoolSlug] = useState("");
   const [username, setUsername] = useState("");
   const [pin, setPin] = useState("");
   const [error, setError] = useState("");
@@ -84,12 +84,6 @@ export default function StaffLoginPage() {
       </form>
       <p className={styles.demo}>
         <Link to="/">Student sign in</Link>
-        {apiMode ? (
-          <>
-            <br />
-            Demo: riverside-ap · lead.ap / 0000
-          </>
-        ) : null}
       </p>
     </div>
   );

@@ -38,13 +38,16 @@ model Trust {
 }
 
 model School {
-  id        String   @id @default(cuid())
-  trustId   String
-  trust     Trust    @relation(fields: [trustId], references: [id], onDelete: Cascade)
-  name      String
-  slug      String   @unique
-  createdAt DateTime @default(now())
-  users     User[]   @relation("SchoolUsers")
+  id          String   @id @default(cuid())
+  trustId     String?
+  trust       Trust?   @relation(fields: [trustId], references: [id], onDelete: SetNull)
+  name        String
+  slug        String   @unique
+  city        String
+  postcode    String
+  inviteToken String   @unique
+  createdAt   DateTime @default(now())
+  users       User[]   @relation("SchoolUsers")
 }
 
 model User {
@@ -57,6 +60,8 @@ model User {
   username      String
   pinHash       String
   firstName     String
+  city          String?
+  postcode      String?
   yearGroup     Int?
   teamColour    TeamColour?
   accountStatus AccountStatus  @default(APPROVED)

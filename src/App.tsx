@@ -10,7 +10,9 @@ import LoginPage from "./pages/LoginPage";
 import MenuPage from "./pages/MenuPage";
 import PathwaysPage from "./pages/PathwaysPage";
 import ProgressPage from "./pages/ProgressPage";
+import JoinPage from "./pages/JoinPage";
 import RegisterPage from "./pages/RegisterPage";
+import RegisterSchoolPage from "./pages/RegisterSchoolPage";
 import RegulatePage from "./pages/RegulatePage";
 import StaffLoginPage from "./pages/StaffLoginPage";
 import StaffQualityPage from "./pages/StaffQualityPage";
@@ -61,6 +63,15 @@ export default function App() {
             </GuestOnly>
           }
         />
+        <Route
+          path="/register/school"
+          element={
+            <GuestOnly>
+              <RegisterSchoolPage />
+            </GuestOnly>
+          }
+        />
+        <Route path="/join/:token" element={<JoinPage />} />
         <Route
           path="/staff-login"
           element={

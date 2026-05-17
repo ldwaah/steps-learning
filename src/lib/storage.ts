@@ -26,30 +26,7 @@ export type Session = {
 
 export const DEMO_USER_IDS = ["u1", "u2"] as const;
 
-export const DEFAULT_USERS: StoredUser[] = [
-  {
-    id: "u1",
-    username: "alex",
-    pin: "4821",
-    firstName: "Alex",
-    yearGroup: 9,
-    points: 0,
-    level: "Getting started",
-    teamColour: "RED",
-    accountStatus: "APPROVED",
-  },
-  {
-    id: "u2",
-    username: "jordan",
-    pin: "7392",
-    firstName: "Jordan",
-    yearGroup: 11,
-    points: 0,
-    level: "Getting started",
-    teamColour: "BLUE",
-    accountStatus: "APPROVED",
-  },
-];
+export const DEFAULT_USERS: StoredUser[] = [];
 
 export function ensureSeedUsers(): void {
   if (localStorage.getItem(USERS_KEY)) return;

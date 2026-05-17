@@ -121,3 +121,111 @@
   font-size: 0.8125rem;
   color: var(--ink-muted);
 }
+
+.hintInline {
+  margin: -0.25rem 0 0.35rem;
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+
+.choiceGrid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.choiceCard,
+.choiceCardStatic {
+  display: block;
+  padding: 1.1rem 1.15rem;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: inherit;
+}
+
+.choiceCard:hover {
+  border-color: var(--teal);
+}
+
+.choiceTitle {
+  display: block;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.choiceDesc {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  color: var(--ink-muted);
+  line-height: 1.45;
+}
+
+.choiceNote {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--rust);
+}
+
+.choiceFoot {
+  margin: 0.75rem 0 0;
+  font-size: 0.8125rem;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 0.35rem 0;
+}
+
+.linkBox {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  word-break: break-all;
+}
+
+.secondaryBtn {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-card);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.footerLink {
+  display: block;
+  margin-top: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--teal-deep);
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.tab,
+.tabActive {
+  padding: 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-card);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.tabActive {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+  color: var(--teal-deep);
+}
