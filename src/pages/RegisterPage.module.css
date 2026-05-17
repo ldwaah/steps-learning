@@ -3,14 +3,20 @@
   display: grid;
   place-content: center;
   padding: 1.5rem;
-  max-width: 400px;
+  max-width: 420px;
   margin: 0 auto;
 }
 
 .title {
-  margin: 0 0 1rem;
+  margin: 0 0 0.35rem;
   font-size: 1.5rem;
   font-weight: 600;
+}
+
+.lead {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
 }
 
 .card {
@@ -22,7 +28,8 @@
   border-radius: var(--radius);
 }
 
-.card label {
+.card label,
+.fieldLabel {
   font-size: 0.8125rem;
   font-weight: 600;
 }
@@ -37,6 +44,40 @@
 .card input:focus {
   outline: none;
   border-color: var(--teal);
+}
+
+.teamRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.teamBtn {
+  padding: 0.85rem;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  background: var(--bg-card);
+}
+
+.teamRED {
+  color: var(--team-red);
+}
+
+.teamBLUE {
+  color: var(--team-blue);
+}
+
+.teamActive.teamRED {
+  border-color: var(--team-red);
+  background: var(--team-red-soft);
+}
+
+.teamActive.teamBLUE {
+  border-color: var(--team-blue);
+  background: var(--team-blue-soft);
 }
 
 .error {
@@ -56,18 +97,27 @@
   cursor: pointer;
 }
 
-.links {
+.footer {
   margin-top: 1rem;
   font-size: 0.875rem;
   text-align: center;
 }
 
-.links a {
+.footer a {
+  color: var(--teal-deep);
   font-weight: 600;
 }
 
-.demo {
-  margin-top: 1rem;
+.usernameBox {
+  margin: 0.75rem 0 0;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+}
+
+.hint {
+  margin: 0.5rem 0 0;
   font-size: 0.8125rem;
   color: var(--ink-muted);
 }

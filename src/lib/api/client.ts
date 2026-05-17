@@ -12,6 +12,8 @@ export type ApiUser = {
   role: string;
   schoolId: string | null;
   schoolName: string | null;
+  teamColour?: "RED" | "BLUE" | null;
+  accountStatus?: string;
 };
 
 export type LoginResult = {
@@ -39,7 +41,11 @@ export async function apiLogin(
     body: JSON.stringify({ schoolSlug, username, pin }),
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error ?? "Login failed");
+  if (!res.ok) {
+    const err = new Error(data.error ?? "Login failed") as Error & { code?: string };
+    if (data.code) err.code = data.code;
+    throw err;
+  }
   setApiToken(data.token);
   return data as LoginResult;
 }

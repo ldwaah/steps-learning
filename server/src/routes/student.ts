@@ -4,6 +4,7 @@ import { prisma } from "../lib/db.js";
 import type { AppVariables } from "../middleware/auth.js";
 import { requireAuth, requireRoles } from "../middleware/auth.js";
 import { appendAudit } from "../services/auditService.js";
+import { getSchoolLeaderboard } from "../services/leaderboardService.js";
 import {
   completeSession,
   listProgress,
@@ -20,6 +21,13 @@ export const studentRoutes = new Hono<{ Variables: AppVariables }>();
 
 studentRoutes.use("*", requireAuth);
 studentRoutes.use("*", requireRoles("STUDENT"));
+
+studentRoutes.get("/leaderboard", async (c) => {
+  const auth = c.get("auth");
+  if (!auth.schoolId) return c.json({ error: "School required" }, 400);
+  const board = await getSchoolLeaderboard(auth.schoolId, auth.sub);
+  return c.json(board);
+});
 
 studentRoutes.get("/state", async (c) => {
   const auth = c.get("auth");
@@ -40,6 +48,7 @@ studentRoutes.get("/state", async (c) => {
       yearGroup: user.yearGroup,
       points: user.points,
       level: user.level,
+      teamColour: user.teamColour,
     },
     progress,
     checkInToday,

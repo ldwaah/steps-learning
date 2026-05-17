@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole } from "@prisma/client";
+import { AccountStatus, PrismaClient, TeamColour, UserRole } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -47,6 +47,8 @@ async function main() {
         pinHash,
         firstName: "Alex",
         yearGroup: 9,
+        teamColour: TeamColour.RED,
+        accountStatus: AccountStatus.APPROVED,
         points: 0,
         level: "Getting started",
       },
@@ -58,6 +60,8 @@ async function main() {
         pinHash: pinHash2,
         firstName: "Jordan",
         yearGroup: 11,
+        teamColour: TeamColour.BLUE,
+        accountStatus: AccountStatus.APPROVED,
         points: 0,
         level: "Getting started",
       },
@@ -69,6 +73,8 @@ async function main() {
         pinHash,
         firstName: "Sam",
         yearGroup: 10,
+        teamColour: TeamColour.RED,
+        accountStatus: AccountStatus.APPROVED,
         points: 0,
         level: "Getting started",
       },

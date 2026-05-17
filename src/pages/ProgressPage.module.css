@@ -269,6 +269,45 @@
   background: var(--teal-soft) !important;
 }
 
+.teamBoard {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.teamRow {
+  display: flex;
+  gap: 0.65rem;
+  padding: 0.75rem 0.875rem;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.teamRowYou {
+  border-width: 2px;
+}
+
+.teamRED.teamRowYou {
+  border-color: var(--team-red);
+  background: var(--team-red-soft);
+}
+
+.teamBLUE.teamRowYou {
+  border-color: var(--team-blue);
+  background: var(--team-blue-soft);
+}
+
+.teamRED .boardName {
+  color: var(--team-red);
+}
+
+.teamBLUE .boardName {
+  color: var(--team-blue);
+}
+
 .boardPos {
   font-size: 1.125rem;
   font-weight: 600;

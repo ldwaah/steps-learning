@@ -1,4 +1,4 @@
-// Production Postgres schema — copy to schema.prisma when deploying (replace sqlite datasource).
+// Production Postgres schema — copy to schema.prisma when deploying.
 
 generator client {
   provider = "prisma-client-js"
@@ -15,6 +15,17 @@ enum UserRole {
   DSL
   SCHOOL_ADMIN
   TRUST_ADMIN
+}
+
+enum TeamColour {
+  RED
+  BLUE
+}
+
+enum AccountStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 model Trust {
@@ -37,21 +48,23 @@ model School {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  trustId   String?
-  trust     Trust?   @relation("TrustUsers", fields: [trustId], references: [id])
-  schoolId  String?
-  school    School?  @relation("SchoolUsers", fields: [schoolId], references: [id])
-  role      UserRole @default(STUDENT)
-  username  String
-  pinHash   String
-  firstName String
-  yearGroup Int?
-  points    Int      @default(0)
-  level     String   @default("Getting started")
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String         @id @default(cuid())
+  trustId       String?
+  trust         Trust?         @relation("TrustUsers", fields: [trustId], references: [id])
+  schoolId      String?
+  school        School?        @relation("SchoolUsers", fields: [schoolId], references: [id])
+  role          UserRole       @default(STUDENT)
+  username      String
+  pinHash       String
+  firstName     String
+  yearGroup     Int?
+  teamColour    TeamColour?
+  accountStatus AccountStatus  @default(APPROVED)
+  points        Int            @default(0)
+  level         String         @default("Getting started")
+  active        Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   topicProgress      TopicProgress[]
   checkIns           CheckIn[]
@@ -62,6 +75,8 @@ model User {
   @@unique([schoolId, username])
   @@index([trustId])
   @@index([schoolId, role])
+  @@index([schoolId, accountStatus])
+  @@index([schoolId, teamColour])
 }
 
 model TopicProgress {

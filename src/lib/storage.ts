@@ -1,7 +1,9 @@
 import { getLevelForPoints as getLevelInfo } from "./levels";
+import type { AccountStatus, TeamColour } from "./teams";
 
 const USERS_KEY = "steps_users";
 const SESSION_KEY = "steps_session";
+const STAFF_SESSION_KEY = "steps_staff_session";
 
 export type YearGroup = 7 | 8 | 9 | 10 | 11;
 
@@ -13,6 +15,8 @@ export type StoredUser = {
   yearGroup: YearGroup;
   points: number;
   level: string;
+  teamColour: TeamColour;
+  accountStatus: AccountStatus;
 };
 
 export type Session = {
@@ -31,6 +35,8 @@ export const DEFAULT_USERS: StoredUser[] = [
     yearGroup: 9,
     points: 0,
     level: "Getting started",
+    teamColour: "RED",
+    accountStatus: "APPROVED",
   },
   {
     id: "u2",
@@ -40,6 +46,8 @@ export const DEFAULT_USERS: StoredUser[] = [
     yearGroup: 11,
     points: 0,
     level: "Getting started",
+    teamColour: "BLUE",
+    accountStatus: "APPROVED",
   },
 ];
 
@@ -59,13 +67,55 @@ export function getUsers(): StoredUser[] {
   }
 }
 
+export function saveUsers(users: StoredUser[]): void {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
+export function generateLocalUsername(firstName: string): string {
+  const base = firstName
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "")
+    .slice(0, 10) || "student";
+  const suffix = String(Math.floor(1000 + Math.random() * 9000));
+  const username = `${base}${suffix}`;
+  if (getUsers().some((u) => u.username === username)) {
+    return `${base}${Date.now().toString(36).slice(-4)}`;
+  }
+  return username;
+}
+
 export function findUser(username: string, pin: string): StoredUser | null {
+  const normalised = username.trim().toLowerCase();
+  const user =
+    getUsers().find(
+      (u) => u.username.toLowerCase() === normalised && u.pin === pin,
+    ) ?? null;
+  if (!user) return null;
+  if (user.accountStatus === "PENDING") return null;
+  if (user.accountStatus === "REJECTED") return null;
+  return user;
+}
+
+export function findUserIncludingPending(
+  username: string,
+  pin: string,
+): StoredUser | null {
   const normalised = username.trim().toLowerCase();
   return (
     getUsers().find(
       (u) => u.username.toLowerCase() === normalised && u.pin === pin,
     ) ?? null
   );
+}
+
+export function setStaffSession(active: boolean): void {
+  if (active) localStorage.setItem(STAFF_SESSION_KEY, "1");
+  else localStorage.removeItem(STAFF_SESSION_KEY);
+}
+
+export function isStaffSession(): boolean {
+  return localStorage.getItem(STAFF_SESSION_KEY) === "1";
 }
 
 export function getUserById(id: string): StoredUser | null {

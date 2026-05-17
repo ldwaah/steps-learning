@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   CHECK_IN_POINTS,
@@ -8,9 +8,14 @@ import {
   SESSION_TIME_BONUS_MAX,
 } from "../content";
 import { LEVELS, getLevelForPoints, getNextLevel, pointsToNextLevel } from "../lib/levels";
-import { getLocalLeaderboard, getYourRank } from "../lib/leaderboard";
+import {
+  fetchLeaderboard,
+  getYourRank,
+  type LeaderboardData,
+} from "../lib/leaderboard";
 import { getAllPathwayProgressDetails, getOverallStats } from "../lib/progress";
 import { getCurrentUser } from "../lib/authSession";
+import { teamLabel } from "../lib/teams";
 import styles from "./ProgressPage.module.css";
 
 type Tab = "overview" | "sessions" | "leaderboard";
@@ -27,8 +32,14 @@ export default function ProgressPage() {
   const next = getNextLevel(user.points);
   const toNext = pointsToNextLevel(user.points);
   const pathways = getAllPathwayProgressDetails(user.id);
-  const board = getLocalLeaderboard(user.id);
-  const rank = getYourRank(user.id);
+  const [board, setBoard] = useState<LeaderboardData | null>(null);
+
+  useEffect(() => {
+    if (tab !== "leaderboard") return;
+    void fetchLeaderboard(user.id).then(setBoard);
+  }, [tab, user.id]);
+
+  const rank = board ? getYourRank(board.members, user.id) : 0;
 
   return (
     <div className={styles.page}>
@@ -160,23 +171,52 @@ export default function ProgressPage() {
 
       {tab === "leaderboard" ? (
         <div className={styles.panel}>
-          <p className={styles.note}>This device only. Demo accounts.</p>
-          <p className={styles.rankYou}>
-            You: <strong>#{rank}</strong> of {board.length}
-          </p>
-          <ol className={styles.board}>
-            {board.map((entry, index) => (
-              <li key={entry.userId} className={entry.isYou ? styles.boardYou : undefined}>
-                <span className={styles.boardPos}>{index + 1}</span>
-                <div className={styles.boardBody}>
-                  <span className={styles.boardName}>{entry.isYou ? "You" : entry.firstName}</span>
-                  <span className={styles.boardMeta}>
-                    {entry.points} pts · {entry.sessionsCompleted} sessions
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ol>
+          {!board ? (
+            <p className={styles.note}>Loading leaderboard…</p>
+          ) : (
+            <>
+              <section className={styles.card}>
+                <h2>Team totals</h2>
+                <p className={styles.note}>Combined points from everyone on each team.</p>
+                <ol className={styles.teamBoard}>
+                  {board.teams.map((team, index) => (
+                    <li
+                      key={team.colour}
+                      className={`${styles.teamRow} ${team.isYourTeam ? styles.teamRowYou : ""} ${styles[`team${team.colour}`]}`}
+                    >
+                      <span className={styles.boardPos}>{index + 1}</span>
+                      <div className={styles.boardBody}>
+                        <span className={styles.boardName}>{team.label}</span>
+                        <span className={styles.boardMeta}>
+                          {team.totalPoints} pts · {team.memberCount} members
+                          {team.isYourTeam ? " · your team" : ""}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+              <section className={styles.card}>
+                <h2>Students</h2>
+                <p className={styles.rankYou}>
+                  You: <strong>#{rank}</strong> of {board.members.length}
+                </p>
+                <ol className={styles.board}>
+                  {board.members.map((entry, index) => (
+                    <li key={entry.userId} className={entry.isYou ? styles.boardYou : undefined}>
+                      <span className={styles.boardPos}>{index + 1}</span>
+                      <div className={styles.boardBody}>
+                        <span className={styles.boardName}>{entry.isYou ? "You" : entry.firstName}</span>
+                        <span className={styles.boardMeta}>
+                          {entry.points} pts · {teamLabel(entry.teamColour)}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            </>
+          )}
         </div>
       ) : null}
     </div>

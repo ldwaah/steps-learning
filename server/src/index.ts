@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { authRoutes } from "./routes/auth.js";
 import { meRoutes } from "./routes/me.js";
+import { staffRoutes } from "./routes/staff.js";
 import { studentRoutes } from "./routes/student.js";
 import { trustRoutes } from "./routes/trust.js";
 
@@ -38,6 +39,7 @@ app.route("/api/auth", authRoutes);
 app.route("/api/me", meRoutes);
 app.route("/api/trust", trustRoutes);
 app.route("/api/student", studentRoutes);
+app.route("/api/staff", staffRoutes);
 
 const port = Number(process.env.PORT ?? 3001);
 

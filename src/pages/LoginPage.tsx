@@ -1,11 +1,11 @@
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiLogin } from "../lib/api/client";
 import { isApiMode } from "../lib/api/config";
+import { clearApiStaff, setApiUser } from "../lib/api/session";
 import { hydrateStudentState } from "../lib/api/student";
-import { setApiUser } from "../lib/api/session";
 import { logAudit, refreshAuditFromServer } from "../lib/audit";
-import { findUser, setSession } from "../lib/storage";
+import { findUser, findUserIncludingPending, setSession } from "../lib/storage";
 import styles from "./LoginPage.module.css";
 
 export default function LoginPage() {
@@ -36,16 +36,36 @@ export default function LoginPage() {
       try {
         const result = await apiLogin(schoolSlug.trim(), username.trim(), pin);
         if (result.user.role !== "STUDENT") {
-          setError("Staff accounts use the trust dashboard (coming next).");
+          setError("Staff accounts use teacher sign in.");
           return;
         }
+        clearApiStaff();
         setApiUser(result.user);
         await hydrateStudentState();
         await refreshAuditFromServer(result.user.id);
         navigate("/home");
-      } catch {
+      } catch (err) {
+        const code = (err as Error & { code?: string }).code;
+        if (code === "PENDING_APPROVAL") {
+          setError("Your account is waiting for teacher approval.");
+          return;
+        }
+        if (code === "REJECTED") {
+          setError("This account was not approved. Speak to your teacher.");
+          return;
+        }
         setError("Wrong school code, username, or PIN.");
       }
+      return;
+    }
+
+    const pendingCheck = findUserIncludingPending(username.trim(), pin);
+    if (pendingCheck?.accountStatus === "PENDING") {
+      setError("Your account is waiting for teacher approval.");
+      return;
+    }
+    if (pendingCheck?.accountStatus === "REJECTED") {
+      setError("This account was not approved. Speak to your teacher.");
       return;
     }
 
@@ -107,6 +127,11 @@ export default function LoginPage() {
           Sign in
         </button>
       </form>
+      <p className={styles.links}>
+        <Link to="/register">Create account</Link>
+        <span> · </span>
+        <Link to="/staff-login">Teacher sign in</Link>
+      </p>
       <details className={styles.demo}>
         <summary>{apiMode ? "Trust pilot logins" : "Demo logins"}</summary>
         {apiMode ? (
@@ -122,3 +147,4 @@ export default function LoginPage() {
     </div>
   );
 }
+
