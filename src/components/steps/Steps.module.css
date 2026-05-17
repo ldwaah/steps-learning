@@ -1,0 +1,184 @@
+.step {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.why {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--teal-deep);
+  background: var(--teal-soft);
+  border-radius: 8px;
+  border-left: 3px solid var(--teal);
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.body {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  max-width: 38ch;
+}
+
+.prompt {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.45;
+  max-width: 36ch;
+}
+
+.choiceList {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.choice {
+  width: 100%;
+  padding: 0.75rem 0.875rem;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-card);
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.choice:hover {
+  border-color: #d1d5db;
+  background: #f9fafb;
+}
+
+.choiceActive {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+  color: var(--teal-deep);
+  font-weight: 600;
+}
+
+.choiceCorrect {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+
+.choiceWrong {
+  border-color: #fca5a5;
+  background: rgba(185, 28, 28, 0.04);
+}
+
+.feedback {
+  margin: 0;
+  padding: 0.75rem 0.875rem;
+  border-radius: 10px;
+  background: #f3f4f6;
+  color: var(--ink);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  max-width: 40ch;
+}
+
+.hint {
+  margin: 0.25rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--ink-muted);
+}
+
+.quizItem {
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.quizItem legend {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+  padding: 0;
+}
+
+.primary {
+  margin-top: 0.35rem;
+  width: 100%;
+  padding: 0.8125rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--teal);
+  color: #fff;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--teal-deep);
+}
+
+.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.chip:hover {
+  border-color: #d1d5db;
+}
+
+.chipActive {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+  color: var(--teal-deep);
+  font-weight: 600;
+}
+
+.noteLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  resize: vertical;
+  min-height: 4.25rem;
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-soft);
+}

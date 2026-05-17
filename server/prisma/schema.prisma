@@ -1,0 +1,144 @@
+// Trust-wide data model. Use SQLite locally; Postgres in production (change provider + DATABASE_URL).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  STUDENT
+  STAFF
+  DSL
+  SCHOOL_ADMIN
+  TRUST_ADMIN
+}
+
+model Trust {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  schools   School[]
+  users     User[]   @relation("TrustUsers")
+}
+
+model School {
+  id        String   @id @default(cuid())
+  trustId   String
+  trust     Trust    @relation(fields: [trustId], references: [id], onDelete: Cascade)
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  users     User[]   @relation("SchoolUsers")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  trustId   String?
+  trust     Trust?   @relation("TrustUsers", fields: [trustId], references: [id])
+  schoolId  String?
+  school    School?  @relation("SchoolUsers", fields: [schoolId], references: [id])
+  role      UserRole @default(STUDENT)
+  username  String
+  pinHash   String
+  firstName String
+  yearGroup Int?
+  points    Int      @default(0)
+  level     String   @default("Getting started")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  topicProgress      TopicProgress[]
+  checkIns           CheckIn[]
+  regulateLogs       RegulateLog[]
+  auditEvents        AuditEvent[]
+  sessionCompletions SessionCompletion[]
+
+  @@unique([schoolId, username])
+  @@index([trustId])
+  @@index([schoolId, role])
+}
+
+model TopicProgress {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topicId           String
+  completedBlockIds String   // JSON array stored as string for SQLite
+  currentBlockId    String
+  stepIndex         Int      @default(0)
+  updatedAt         DateTime @updatedAt
+
+  @@unique([userId, topicId])
+}
+
+model CheckIn {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      String   // YYYY-MM-DD
+  mood      String
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@unique([userId, date])
+}
+
+model RegulateLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, date])
+}
+
+model AuditEvent {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        String
+  category    String
+  summary     String
+  detail      String?
+  pointsDelta Int?
+  meta        String?  // JSON
+  createdAt   DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
+}
+
+model SessionCompletion {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topicId       String
+  blockId       String
+  blockTitle    String
+  startedAt     DateTime
+  completedAt   DateTime
+  durationMs    Int
+  stepsTotal    Int
+  quizRequired  Boolean
+  quizPassed    Boolean
+  quizScore       Int?
+  quizTotal       Int?
+  pointsTotal     Int      @default(0)
+  pointsBase      Int      @default(0)
+  pointsTimeBonus Int      @default(0)
+  pointsAwarded   Boolean
+  blockReason     String?
+  schoolId      String?
+  createdAt     DateTime @default(now())
+
+  @@index([userId, completedAt])
+  @@index([schoolId])
+  @@index([completedAt])
+}

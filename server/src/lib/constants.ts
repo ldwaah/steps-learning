@@ -1,0 +1,8 @@
+export const SESSION_BASE_POINTS = 10;
+export const SESSION_TIME_BONUS_MAX = 10;
+export const SESSION_MAX_POINTS = SESSION_BASE_POINTS + SESSION_TIME_BONUS_MAX;
+export const CHECK_IN_POINTS = 5;
+export const REGULATE_POINTS = 5;
+
+export const SESSION_BONUS_FROM_MS = 2 * 60 * 1000;
+export const SESSION_FULL_BONUS_AT_MS = 8 * 60 * 1000;

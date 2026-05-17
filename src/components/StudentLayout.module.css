@@ -1,0 +1,42 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.main {
+  flex: 1;
+  padding-bottom: 4.5rem;
+}
+
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, 480px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+  z-index: 100;
+}
+
+.navLink {
+  padding: 0.65rem 0.25rem 0.75rem;
+  text-align: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+
+.navLinkActive {
+  color: var(--teal-deep);
+  background: var(--teal-soft);
+}

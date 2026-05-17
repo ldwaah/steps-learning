@@ -1,0 +1,142 @@
+.page {
+  padding: 1.25rem 1rem 2rem;
+}
+
+.back {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--teal-deep);
+}
+
+.page h1 {
+  margin: 0.75rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.lead {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+  line-height: 1.45;
+}
+
+.card {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.card h3 {
+  margin: 1rem 0 0.35rem;
+  font-size: 0.875rem;
+}
+
+.stdList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.stdList p {
+  margin: 0.25rem 0 0;
+  color: var(--ink-muted);
+}
+
+.auditNote {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+.exportBtn {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.65rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  background: transparent;
+  cursor: pointer;
+}
+
+.exportBtn:hover {
+  border-color: var(--teal);
+  color: var(--teal-deep);
+}
+
+.resetBtn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: #111827;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.resetBtn:hover {
+  background: #374151;
+}
+
+.resetOk {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--teal-deep);
+}
+
+.auditEmpty {
+  margin: 0;
+  color: var(--ink-muted);
+}
+
+.auditList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.auditItem {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.auditItem:last-child {
+  border-bottom: none;
+}
+
+.auditMeta {
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.auditSummary {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.auditDetail {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
