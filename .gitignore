@@ -7,5 +7,7 @@ tsconfig.tsbuildinfo
 server/node_modules/
 server/dist/
 server/.env
+server/.env.production
 server/prisma/*.db
 server/prisma/*.db-journal
+.vercel
