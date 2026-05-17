@@ -4,14 +4,11 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.auditEvent.deleteMany();
-  await prisma.sessionCompletion.deleteMany();
-  await prisma.topicProgress.deleteMany();
-  await prisma.checkIn.deleteMany();
-  await prisma.regulateLog.deleteMany();
-  await prisma.user.deleteMany();
-  await prisma.school.deleteMany();
-  await prisma.trust.deleteMany();
+  const existing = await prisma.trust.findUnique({ where: { slug: "riverside" } });
+  if (existing) {
+    console.log("Database already seeded (trust: riverside). Skipping.");
+    return;
+  }
 
   const trust = await prisma.trust.create({
     data: {

@@ -8,10 +8,19 @@ import { trustRoutes } from "./routes/trust.js";
 
 const app = new Hono();
 
+const corsOrigins = (process.env.CORS_ORIGIN ?? "http://localhost:5173")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
 app.use(
   "*",
   cors({
-    origin: process.env.CORS_ORIGIN ?? "http://localhost:5173",
+    origin: (origin) => {
+      if (!origin) return corsOrigins[0] ?? "http://localhost:5173";
+      if (corsOrigins.includes(origin)) return origin;
+      return corsOrigins[0] ?? "http://localhost:5173";
+    },
     credentials: true,
   }),
 );

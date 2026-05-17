@@ -1,0 +1,32 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: steps-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci && npm run db:prod:setup && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        sync: false
+      - key: PORT
+        value: "3001"
+      - key: NODE_VERSION
+        value: "22"
+
+  - type: web
+    name: steps-app
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_DATA_MODE
+        value: api
+      - key: VITE_API_URL
+        sync: false
